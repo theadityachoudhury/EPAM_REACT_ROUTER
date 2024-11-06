@@ -1,0 +1,11 @@
+.coursePage__container{
+    @apply space-y-10;
+}
+
+.coursePage__header{
+    @apply flex space-x-10;
+}
+
+.coursePage__searchBar__container{
+    @apply flex-grow;
+}
