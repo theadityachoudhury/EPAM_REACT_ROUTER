@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router';
+import { Route, Routes } from 'react-router';
 import './App.css'
 import Courses from './components/Courses/Courses'
 import Header from './components/Header/Header'
@@ -8,7 +8,6 @@ import Registration from './components/Registration/Registration';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 
 function App() {
-  const navigate = useNavigate();
   return (
     <div className='m-auto'>
       <Header />

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import Button from "../../common/Button/Button";
 import { getCourseFromKey } from "../../helpers/getCourseFromKey";
