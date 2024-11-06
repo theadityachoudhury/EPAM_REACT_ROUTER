@@ -27,7 +27,7 @@
 }
 
 .courseInfo__body > .courseInfo__desc{
-    @apply max-w-2xl;
+    @apply max-w-[60%] w-[60%];
 }
 
 .courseInfo__back{

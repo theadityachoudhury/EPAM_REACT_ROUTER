@@ -1,13 +1,15 @@
 import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
-import "./CourseForm.css";
+import "./CreateCourse.css";
 import { mockedAuthorsList, mockedAuthorsListType, mockedCoursesList, mockedCoursesListType } from "../../constants";
-import AuthorItem from "../AuthorItem/AuthorItem";
+import AuthorItem from "./components/AuthorItem/AuthorItem";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { getCourseDuration } from "../../helpers/getCourseDuration";
+import { useNavigate } from "react-router";
 
-const CourseForm = () => {
+const CreateCourse = () => {
+    const navigate = useNavigate();
 
     const [AuthorsList, setAuthorsList] = useState<mockedAuthorsListType[]>(mockedAuthorsList);
     const [CourseAuthors, setCourseAuthors] = useState<mockedAuthorsListType[]>([]);
@@ -91,7 +93,7 @@ const CourseForm = () => {
             alert("Course Created Successfully");
             //reset the form
             setCourseData({ id: v4(), title: "", description: "", creationDate: new Date().toLocaleDateString(), duration: 0, authors: [] });
-
+            navigate("/courses");
         } else {
             console.log("Form validation failed");
         }
@@ -216,4 +218,4 @@ const CourseForm = () => {
     )
 }
 
-export default CourseForm
+export default CreateCourse

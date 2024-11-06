@@ -1,21 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
-import "./Register.css";
+import "./Registration.css";
 import { useState } from "react";
+import instance from "../../helpers/axios";
+import axios, { AxiosError } from "axios";
 
-const Register = () => {
+const Registration = () => {
+    const navigate = useNavigate();
     const [input, setInput] = useState<{ name: string, email: string, password: string }>({ name: "", email: "", password: "" });
     const [error, setError] = useState<{ name: string, email: string, password: string }>({ name: "", email: "", password: "" });
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setInput({ ...input, [name]: value });
     }
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(input);
-        const { email, password,name } = input;
+        const { email, password, name } = input;
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         let errrorObj = { ...error };
         if (!emailPattern.test(email)) {
@@ -39,7 +42,22 @@ const Register = () => {
             setError(errrorObj);
             return;
         } else {
-            setError({ name:"",email: "", password: "" });
+            setError({ name: "", email: "", password: "" });
+        }
+
+        const inputData = { email, password, name };
+        try {
+            const response = await instance.post("/register", inputData);
+            if (response.status === 201) {
+                navigate("/login");
+            }
+        } catch (err: Error | AxiosError | any) {
+            console.log(err);
+            if (axios.isAxiosError(err)) {
+                if (err.response?.data) {
+                    setError({ ...error, email: "Email already exists" });
+                }
+            }
         }
     }
 
@@ -48,11 +66,11 @@ const Register = () => {
             <div className="login__body">
                 <h1 className="">Register</h1>
                 <div className="login__form__body">
-                    <form className="">
+                    <form className="" onSubmit={handleSubmit}>
                         <Input type="text" metaData={{ placeholder: "Enter Name", name: "name", error: error.name }} onChange={handleChange} label={{ show: true, text: "Name" }} />
                         <Input type="email" metaData={{ placeholder: "Enter Email", name: "email", error: error.email }} onChange={handleChange} label={{ show: true, text: "Email" }} />
                         <Input type="password" metaData={{ placeholder: "Enter Password", name: "password", error: error.password }} onChange={handleChange} label={{ show: true, text: "Password" }} />
-                        <Button title="LOGIN" onClick={handleSubmit} />
+                        <Button title="Register" type="submit" />
                     </form>
                     <p className="">
                         If you have an account you can <Link to="/login" className="">Login</Link>
@@ -63,4 +81,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Registration;

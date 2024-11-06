@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import Button from "../../common/Button/Button";
 import { getCourseFromKey } from "../../helpers/getCourseFromKey";
 import "./CourseInfo.css";
@@ -9,20 +9,12 @@ import { getCourseDuration } from "../../helpers/getCourseDuration";
 
 const CourseInfo = () => {
     const { courseId } = useParams();
+    const navigate = useNavigate();
 
-    const [isNavigate, setIsNavigate] = useState(false);
 
     const courseInfo = getCourseFromKey(courseId as string);
 
     if (!courseInfo) {
-        return <Navigate to={`/`} />
-    }
-
-    const handleBacktoCourses = () => {
-        setIsNavigate(true);
-    }
-
-    if (isNavigate) {
         return <Navigate to={`/`} />
     }
 
@@ -52,7 +44,7 @@ const CourseInfo = () => {
                     </div>
                 </div>
                 <div className="courseInfo__back">
-                    <Button title="Back" onClick={handleBacktoCourses} />
+                    <Button title="Back" onClick={()=>{navigate("/courses")}} />
                 </div>
             </div>
 

@@ -17,7 +17,7 @@
 }
 
 .card__metadata {
-	@apply place-items-end;
+	@apply place-items-start;
 }
 
 .courseCard__button {
